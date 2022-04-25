@@ -33,21 +33,62 @@ const firebaseApp = firebase.initializeApp({
             generateTask(task);
         })
     }
+    
     function generateTask(task){
         let taskHTML = "";
         task.forEach((task) => {
-            console.log(task);
             taskHTML += `<div class="task-item">
             <div class="task">
-                ${task.task}
+                ${task.task+' scheduled for '+task.date}
             </div>
             <div class="mark-status">
-                <button>Completed</button>
-                <button>Missed</button>
+                <button data-id="${task.id}" class="completed">Completed</button>
+                <button data-id="${task.id}" class="missed">Missed</button>
             </div>
         </div>`
         })
 
         document.querySelector(".task-list").innerHTML = taskHTML;
+        statusEventListener();
+    }
+
+    function statusEventListener(){
+        let completedStatus = document.querySelectorAll(".mark-status .completed");
+        let missedStatus = document.querySelectorAll(".mark-status .missed");
+        completedStatus.forEach((complete) =>{
+            complete.addEventListener("click", function(){
+                markCompleted(complete.dataset.id);
+            })
+        })
+        missedStatus.forEach((missed) =>{
+            missed.addEventListener("click", function(){
+                markMissed(missed.dataset.id);
+            })
+        })
+    }
+
+    function markCompleted(id){
+        let task = db.collection("todo-tasklist").doc(id);
+        task.get().then(function(doc){
+            if(doc.exists){
+                task.update({
+                    status: "completed" 
+                }
+                )
+                alert("Task status is updated");
+            }
+        })
+    }
+    function markMissed(id){
+        let task = db.collection("todo-tasklist").doc(id);
+        task.get().then(function(doc){
+            if(doc.exists){
+                task.update({
+                    status: "missed" 
+                }
+                )
+                alert("Task status is updated");
+            }
+        })
     }
 getTasks();
