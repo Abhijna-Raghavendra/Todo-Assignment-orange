@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>To Do App</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="bgimg">
+		<img src="./assets/img1.png">
+	</div>
+	<div class="container">
+		<div class="todo-title">
+			My To-Do List
+		</div>
+		<div class="new-todo">
+			<form id="task-form">
+				<div class="new-todo-content">
+					<input type="text" id="new-task" autocomplete="off" placeholder="New to-do item comes here..">
+			</div>
+			<div class="new-todo-date">
+				<input type="date" id="task-date">
+			</div>
+			<div class="new-todo-add">
+				<button onclick="addTodo(event)">
+					<img src="./assets/img2.png">
+				</button>
+			</div>
+			</form>
+		</div>
+		<div class="status-tab">
+			<button>All</button>
+			<button>Completed</button>
+			<button>Missed</button>
+		</div>
+		<div class="task-list">
+			<div class="task-item">
+			</div>
+		</div>
+		<div class="status-tab">
+
+		</div>
+	</div>
+	<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+	<script src="script.js"></script>
+</body>
+</html>
