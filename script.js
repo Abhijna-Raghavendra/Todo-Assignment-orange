@@ -37,15 +37,39 @@ const firebaseApp = firebase.initializeApp({
     function generateTask(task){
         let taskHTML = "";
         task.forEach((task) => {
-            taskHTML += `<div class="task-item">
-            <div class="task">
-                ${task.task+' scheduled for '+task.date}
-            </div>
-            <div class="mark-status">
-                <button data-id="${task.id}" class="completed">Completed</button>
-                <button data-id="${task.id}" class="missed">Missed</button>
-            </div>
-        </div>`
+            if(task.status=="active")
+            {
+                taskHTML += `<div class="task-item" id="active">
+                <div class="task">
+                    ${task.task+' scheduled for '+task.date}
+                </div>
+                <div class="mark-status">
+                    <button data-id="${task.id}" class="completed">Completed</button>
+                    <button data-id="${task.id}" class="missed">Missed</button>
+                </div>
+            </div>`
+            }
+            else if(task.status=="completed")
+            {
+                taskHTML += `<div class="task-item" id="completed">
+                <div class="task">
+                    ${task.task+' scheduled for '+task.date}
+                </div>
+            </div>`
+            }
+            else if(task.status=="missed")
+            {
+                taskHTML +=`<div class="task-item" id="missed">
+                <div class="task">
+                    ${task.task+' scheduled for '+task.date}
+                </div>
+                <div class="mark-status">
+                    <input data-id="${task.id}" type="date" id="reschedule-date">
+                    <button data-id="${task.id}" class="reschedule">Reschedule</button>
+                </div>
+            </div>` 
+            }
+            
         })
 
         document.querySelector(".task-list").innerHTML = taskHTML;
@@ -55,6 +79,7 @@ const firebaseApp = firebase.initializeApp({
     function statusEventListener(){
         let completedStatus = document.querySelectorAll(".mark-status .completed");
         let missedStatus = document.querySelectorAll(".mark-status .missed");
+        
         completedStatus.forEach((complete) =>{
             complete.addEventListener("click", function(){
                 markCompleted(complete.dataset.id);
@@ -64,9 +89,15 @@ const firebaseApp = firebase.initializeApp({
             missed.addEventListener("click", function(){
                 markMissed(missed.dataset.id);
             })
+        }) 
+        let rescheduleStatus = document.querySelectorAll(".mark-status .reschedule");
+        let date = document.getElementById("reschedule-date");
+        rescheduleStatus.forEach((reschedule) =>{
+            reschedule.addEventListener("click", function(){
+                markReschedule(reschedule.dataset.id,date.value);
+            })
         })
     }
-
     function markCompleted(id){
         let task = db.collection("todo-tasklist").doc(id);
         task.get().then(function(doc){
@@ -91,4 +122,32 @@ const firebaseApp = firebase.initializeApp({
             }
         })
     }
+    function markReschedule(id,date){
+        let task = db.collection("todo-tasklist").doc(id);
+        task.get().then(function(doc){
+            if(doc.exists){
+                task.update({
+                    date: date,
+                    status: "active" 
+                }
+                )
+                alert("Task is rescheduled");
+            }
+        })
+    }
+
+    function openTab(event, status) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("task-item");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tab-buttons");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(status).style.display = "block";
+        event.currentTarget.className += " active";
+      }
+document.getElementById("default").click();
 getTasks();

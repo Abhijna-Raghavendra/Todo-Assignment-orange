@@ -100,6 +100,13 @@
 .new-todo-add img{
 	height: 100%;
 }
+.loading{
+	width: 50%;
+	margin-left: 25%;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
 .status-tab{
 	width: 70%;
 	height: 50px;
@@ -117,6 +124,9 @@
 	color: whitesmoke;
 	font-size: 24px;
 	font-family: 'Shadows Into Light', cursive;
+}
+.status-tab button.active{
+	background-color: #181716;
 }
 .status-tab button:hover{
 	background-color: #181716;
@@ -142,6 +152,18 @@
 	flex-grow: 1;
 	color: whitesmoke;
 	font-size: 20px;
+}
+.mark-status input{
+	flex-grow: 1;
+	margin-left: 5px;
+	padding: 10px 0;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	color: whitesmoke;
+	font-family: 'Shadows Into Light', cursive;
+	font-weight: bold;
+	font-size: 18px;	
 }
 .mark-status button{
 	padding: 5px 5px;

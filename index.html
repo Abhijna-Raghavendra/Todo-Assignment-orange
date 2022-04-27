@@ -34,16 +34,14 @@
 			</form>
 		</div>
 		<div class="status-tab">
-			<button>All</button>
-			<button>Completed</button>
-			<button>Missed</button>
+			<button class="tab-buttons" onclick="openTab(event,'active')" id="default">All</button>
+			<button class="tab-buttons" onclick="openTab(event,'completed')">Completed</button>
+			<button class="tab-buttons" onclick="openTab(event,'missed')">Missed</button>
 		</div>
+		<!--<div class="loading">
+			<img src="./assets/img3.gif">
+		</div>-->
 		<div class="task-list">
-			<div class="task-item">
-			</div>
-		</div>
-		<div class="status-tab">
-
 		</div>
 	</div>
 	<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
